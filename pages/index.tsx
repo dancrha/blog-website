@@ -2,14 +2,14 @@ import Head from "next/head";
 import Header from "@/components/Header";
 import { sanityClient, urlFor } from "../sanity";
 import { Post } from "@/typings";
+import Link from "next/link";
 
 interface Props {
-  posts: Post[];
+  posts: [Post];
 }
 
 export default function Home({ posts }: Props) {
   console.log(posts);
-  console.log("hi");
   return (
     <div className='max-w-7xl mx-auto'>
       <Head>
@@ -39,6 +39,15 @@ export default function Home({ posts }: Props) {
       </div>
 
       {/* posts */}
+      <div>
+        {posts.map((post) => (
+          <Link key={post._id} href={`/post/${post.slug.current}`}>
+            <div>
+              <h1>i am a post</h1>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
@@ -47,7 +56,6 @@ export const getServerSideProps = async () => {
   const query = `*[_type == "post"] {
   _id,
     title,
-    slug,
     author -> {
       name, 
         image
@@ -58,6 +66,7 @@ export const getServerSideProps = async () => {
 }`;
 
   const posts = await sanityClient.fetch(query);
+  console.log(posts);
 
   return {
     props: {
