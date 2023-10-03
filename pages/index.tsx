@@ -1,14 +1,15 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import Head from "next/head";
 import Header from "@/components/Header";
 import { sanityClient, urlFor } from "../sanity";
+import { Post } from "@/typings";
 
 interface Props {
-  posts: [Post];
+  posts: Post[];
 }
 
-export default function Home(props: Props) {
+export default function Home({ posts }: Props) {
+  console.log(posts);
+  console.log("hi");
   return (
     <div className='max-w-7xl mx-auto'>
       <Head>
